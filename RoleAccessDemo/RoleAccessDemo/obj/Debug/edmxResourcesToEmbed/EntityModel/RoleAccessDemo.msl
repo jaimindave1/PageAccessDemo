@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+    <EntitySetMapping Name="PageAccesses">
+      <EntityTypeMapping TypeName="TestModel.PageAccess">
+        <MappingFragment StoreEntitySet="PageAccess">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PageID" ColumnName="PageID" />
+          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+          <ScalarProperty Name="View" ColumnName="View" />
+          <ScalarProperty Name="Edit" ColumnName="Edit" />
+          <ScalarProperty Name="Add" ColumnName="Add" />
+          <ScalarProperty Name="Delete" ColumnName="Delete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pages">
+      <EntityTypeMapping TypeName="TestModel.Page">
+        <MappingFragment StoreEntitySet="Pages">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PageName" ColumnName="PageName" />
+          <ScalarProperty Name="ParentPageID" ColumnName="ParentPageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="TestModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="TestModel.UserRole">
+        <MappingFragment StoreEntitySet="UserRole">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserRole1" ColumnName="UserRole" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetPageAccessByUser" FunctionName="TestModel.Store.GetPageAccessByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestModel.GetPageAccessByUser_Result">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+          <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+          <ScalarProperty Name="PageID" ColumnName="PageID" />
+          <ScalarProperty Name="PageName" ColumnName="PageName" />
+          <ScalarProperty Name="PageAccessID" ColumnName="PageAccessID" />
+          <ScalarProperty Name="Add" ColumnName="Add" />
+          <ScalarProperty Name="Edit" ColumnName="Edit" />
+          <ScalarProperty Name="View" ColumnName="View" />
+          <ScalarProperty Name="Delete" ColumnName="Delete" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPagesByParentPage" FunctionName="TestModel.Store.GetPagesByParentPage">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestModel.GetPagesByParentPage_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PageName" ColumnName="PageName" />
+          <ScalarProperty Name="ParentPageID" ColumnName="ParentPageID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetParentPages" FunctionName="TestModel.Store.GetParentPages">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TestModel.GetParentPages_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PageName" ColumnName="PageName" />
+          <ScalarProperty Name="ParentPageID" ColumnName="ParentPageID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,13 @@
+﻿@model RoleAccessDemo.Models.PageAccessViewModel
+
+<tr>
+    @Html.HiddenFor(x => x.PageAccessID)
+    <td>@Html.Label(Model.PageName)</td>
+    <td>@Html.CheckBoxFor(x => x.View)</td>
+    <td>@Html.CheckBoxFor(x => x.Add)</td>
+    @if (Model.isEditVisible)
+    {
+        <td>@Html.CheckBoxFor(x => x.Edit)</td>
+    }
+    <td>@Html.CheckBoxFor(x => x.Delete)</td>
+</tr>

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<RoleAccessDemo.Models.PageAccessViewModel>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, null))
+{
+    <table id="tblPageAccess">
+        @Html.Partial("PageHeaderTableHeader", Model.FirstOrDefault())
+
+        @Html.EditorForModel()
+    </table>
+    <button type="submit">OK</button>
+}

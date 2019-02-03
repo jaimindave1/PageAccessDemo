@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PageAccess">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageID" Type="Int32" />
+    <Property Name="UserRoleID" Type="Int32" />
+    <Property Name="View" Type="Boolean" />
+    <Property Name="Edit" Type="Boolean" />
+    <Property Name="Add" Type="Boolean" />
+    <Property Name="Delete" Type="Boolean" />
+    <NavigationProperty Name="Page" Relationship="Self.FK_PageAccess_Pages" FromRole="PageAccess" ToRole="Pages" />
+    <NavigationProperty Name="UserRole" Relationship="Self.FK_PageAccess_UserRole" FromRole="PageAccess" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="Page">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentPageID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="PageAccesses" Relationship="Self.FK_PageAccess_Pages" FromRole="Pages" ToRole="PageAccess" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserRoleID" Type="Int32" />
+    <NavigationProperty Name="UserRole" Relationship="Self.FK_User_UserRole" FromRole="User" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserRole1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PageAccesses" Relationship="Self.FK_PageAccess_UserRole" FromRole="UserRole" ToRole="PageAccess" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_User_UserRole" FromRole="UserRole" ToRole="User" />
+    <NavigationProperty Name="UserRole11" Relationship="Self.FK_UserRole_UserRole" FromRole="UserRole" ToRole="UserRole1" />
+    <NavigationProperty Name="UserRole2" Relationship="Self.FK_UserRole_UserRole" FromRole="UserRole1" ToRole="UserRole" />
+    <NavigationProperty Name="UserRole12" Relationship="Self.FK_UserRole_UserRole1" FromRole="UserRole" ToRole="UserRole1" />
+    <NavigationProperty Name="UserRole3" Relationship="Self.FK_UserRole_UserRole1" FromRole="UserRole1" ToRole="UserRole" />
+  </EntityType>
+  <Association Name="FK_PageAccess_Pages">
+    <End Role="Pages" Type="Self.Page" Multiplicity="0..1" />
+    <End Role="PageAccess" Type="Self.PageAccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PageAccess">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PageAccess_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="PageAccess" Type="Self.PageAccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PageAccess">
+        <PropertyRef Name="UserRoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="UserRoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+    <End Role="UserRole1" Type="Self.UserRole" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_UserRole1">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+    <End Role="UserRole1" Type="Self.UserRole" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PageAccesses" EntityType="Self.PageAccess" />
+    <EntitySet Name="Pages" EntityType="Self.Page" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+    <AssociationSet Name="FK_PageAccess_Pages" Association="Self.FK_PageAccess_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="PageAccess" EntitySet="PageAccesses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageAccess_UserRole" Association="Self.FK_PageAccess_UserRole">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="PageAccess" EntitySet="PageAccesses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_UserRole" Association="Self.FK_User_UserRole">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_UserRole" Association="Self.FK_UserRole_UserRole">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="UserRole1" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_UserRole1" Association="Self.FK_UserRole_UserRole1">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="UserRole1" EntitySet="UserRoles" />
+    </AssociationSet>
+    <FunctionImport Name="GetPageAccessByUser" ReturnType="Collection(TestModel.GetPageAccessByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="ParentPageID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetPagesByParentPage" ReturnType="Collection(TestModel.GetPagesByParentPage_Result)">
+      <Parameter Name="ParentPageID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetParentPages" ReturnType="Collection(TestModel.GetParentPages_Result)" />
+  </EntityContainer>
+  <ComplexType Name="GetPageAccessByUser_Result">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserRoleID" Nullable="false" />
+    <Property Type="String" Name="UserRole" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PageID" Nullable="false" />
+    <Property Type="String" Name="PageName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PageAccessID" Nullable="false" />
+    <Property Type="Boolean" Name="Add" Nullable="true" />
+    <Property Type="Boolean" Name="Edit" Nullable="true" />
+    <Property Type="Boolean" Name="View" Nullable="true" />
+    <Property Type="Boolean" Name="Delete" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetPagesByParentPage_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="PageName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ParentPageID" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="GetParentPages_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="PageName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ParentPageID" Nullable="true" MaxLength="10" />
+  </ComplexType>
+</Schema>

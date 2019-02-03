@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="PageAccess">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageID" Type="int" />
+    <Property Name="UserRoleID" Type="int" />
+    <Property Name="View" Type="bit" />
+    <Property Name="Edit" Type="bit" />
+    <Property Name="Add" Type="bit" />
+    <Property Name="Delete" Type="bit" />
+  </EntityType>
+  <EntityType Name="Pages">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentPageID" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserRoleID" Type="int" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserRole" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_PageAccess_Pages">
+    <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
+    <End Role="PageAccess" Type="Self.PageAccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PageAccess">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PageAccess_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="PageAccess" Type="Self.PageAccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PageAccess">
+        <PropertyRef Name="UserRoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="UserRoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+    <End Role="UserRole1" Type="Self.UserRole" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_UserRole1">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+    <End Role="UserRole1" Type="Self.UserRole" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetPageAccessByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="ParentPageID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetPagesByParentPage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ParentPageID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetParentPages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="TestModelStoreContainer">
+    <EntitySet Name="PageAccess" EntityType="Self.PageAccess" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_PageAccess_Pages" Association="Self.FK_PageAccess_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="PageAccess" EntitySet="PageAccess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PageAccess_UserRole" Association="Self.FK_PageAccess_UserRole">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="PageAccess" EntitySet="PageAccess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_UserRole" Association="Self.FK_User_UserRole">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_UserRole" Association="Self.FK_UserRole_UserRole">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="UserRole1" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_UserRole1" Association="Self.FK_UserRole_UserRole1">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="UserRole1" EntitySet="UserRole" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

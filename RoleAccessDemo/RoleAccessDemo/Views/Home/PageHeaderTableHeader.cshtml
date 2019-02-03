@@ -1,0 +1,12 @@
+﻿@model RoleAccessDemo.Models.PageAccessViewModel
+
+<tr>
+    <th>Page Name</th>
+    <th>View</th>
+    <th>Add</th>
+    @if (Model.isEditVisible)
+    {
+        <th>Edit</th>
+    }
+    <th>Delete</th>
+</tr>
